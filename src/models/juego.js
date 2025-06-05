@@ -1,7 +1,7 @@
 //crud 
 const pool = require(`../config/database`);
 
-class Producto {
+class Juego {
     static async getAll(){
         const[rows] = await pool.query(`SELECT * FROM juego`);
         return rows;
@@ -13,34 +13,34 @@ class Producto {
           return rows [0];
     }
 
-    static async create(producto) {
-    const { nombre, dificultad } = producto;
+    static async create(juego) {
+    const { nombre, dificultad } = juego;
     const [result] = await pool.query(
-    `INSERT INTO productos (juego, dificultad) VALUES (?,
-    ?, ?)`,
+    `INSERT INTO juego (juego, dificultad) VALUES (?,
+    ?)`,
     [nombre, dificultad]
     );
     return result.insertId;
     }
 
-    static async update (id, producto){
-        const {juego,dificultad} = producto;
+    static async update (id, juego){
+        const {nombre,dificultad} = juego;
         const [result]=await pool.query(
-            `UPDATE productos SET juego = ?, dificultad = ?
-            WHERE ID = ?`,
-            [juego,dificultad,id]
+            `UPDATE juego SET juego = ?, dificultad = ?
+            WHERE id_juego = ?`,
+            [nombre,dificultad,id]
         );
         return result.affectedRows;
     }
 
     static async delete(id){
         const [result] = await pool.query(`DELETE FROM juego 
-            WHERE id= ?`,[id]);
+            WHERE id_juego= ?`,[id]);
             return result.affectedRows;
     }
 }
 
-module.exports = Producto;
+module.exports = Juego;
 
 
 
